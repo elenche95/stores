@@ -3,6 +3,7 @@ import pandas as pd
 from clean import clean
 from feature_engineering_utils import creating_conversion_table
 from feature_engineering_utils import creating_df_with_sorted_id
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 
 # 1 creating a new column with store id's which are realted to Sales
@@ -16,7 +17,7 @@ df = creating_df_with_sorted_id(conversion)
 # Convert the holidays to 1 or 0, but holidays do have a slight different sales numbers
 print("converting the holidays")
 df['holiday_bool'] = df['StateHoliday_new'].replace({'a': 1, 'b': 1, 'c':1, '0':0 })
-df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True)
+df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True, axis=1)
 
 
 
@@ -27,6 +28,8 @@ df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True)
 X = df.loc[:, df.columns!= 'Sales']
 y = df.loc[:, 'Sales']
 
+
+# K fold to reshuffle the data ?? 
 X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2)
 
 
@@ -43,8 +46,8 @@ OH_X_valid_cols = pd.DataFrame(OH_encoder.transform(X_valid[cat_col]))
 OH_X_train_cols.index = X_train.index 
 OH_X_valid_cols.index = X_valid.index
 
-num_X_train = X_train.drop(object_cols, axis=1)
-num_X_valid = X_valid.drop(object_cols, axis=1) 
+num_X_train = X_train.drop(cat_col, axis=1)
+num_X_valid = X_valid.drop(cat_col, axis=1) 
 
 OH_X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
 OH_X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
