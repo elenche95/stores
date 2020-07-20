@@ -3,16 +3,53 @@ import pandas as pd
 from clean import clean
 from feature_engineering_utils import creating_conversion_table
 from feature_engineering_utils import creating_df_with_sorted_id
+from sklearn.preprocessing import OneHotEncoder
 
 # 1 creating a new column with store id's which are realted to Sales
 
 # 1.1
+print("creating conversion table")
 conversion = creating_conversion_table()
 # 1.2
-df_v_1 = creating_df_with_sorted_id(conversion)
+df = creating_df_with_sorted_id(conversion)
 # 1.3
+# Convert the holidays to 1 or 0, but holidays do have a slight different sales numbers
+print("converting the holidays")
+df['holiday_bool'] = df['StateHoliday_new'].replace({'a': 1, 'b': 1, 'c':1, '0':0 })
+df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True)
+
+
+
+
+
+
+# Splitting train, test, X and y 
+X = df.loc[:, df.columns!= 'Sales']
+y = df.loc[:, 'Sales']
+
+X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2)
+
+
+
+# One Hot Encoding 'StoreType', 'Assortment','PromoInterval'
+
+OH_encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
+
+cat_col = [col for col in df.columns if df[col].dtype=='O']
+
+OH_X_train_cols = pd.DataFrame(OH_encoder.fit_transform(X_train[cat_col]))
+OH_X_valid_cols = pd.DataFrame(OH_encoder.transform(X_valid[cat_col]))
+
+OH_X_train_cols.index = X_train.index 
+OH_X_valid_cols.index = X_valid.index
+
+num_X_train = X_train.drop(object_cols, axis=1)
+num_X_valid = X_valid.drop(object_cols, axis=1) 
+
+OH_X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
+OH_X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
 
 
 # last step save it as csv
 
-df_v_1.to_csv('./transformed.csv')
+df.to_csv('./transformed.csv')
