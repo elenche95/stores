@@ -10,3 +10,9 @@ from feature_engineering_utils import creating_df_with_sorted_id
 conversion = creating_conversion_table()
 # 1.2
 df_v_1 = creating_df_with_sorted_id(conversion)
+# 1.3
+
+
+# last step save it as csv
+
+df_v_1.to_csv('./transformed.csv')
