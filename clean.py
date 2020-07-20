@@ -1,8 +1,10 @@
 import pandas as pd
-def clean():
-    train = pd.read_csv('./data/train.csv', parse_dates=True, index_col='Date')
-    #train.set_index('Date', inplace=True)
-   # train.index = pd.to_datetime(train.index)
+from pathlib import Path
+
+def clean(str_path):
+#This function takes the string argument for the path of the train.csv input str_path
+    path = Path(str_path)
+    train = pd.read_csv(path, parse_dates=True, index_col='Date')
     train['year'] = train.index.year
     train['month'] = train.index.year
     train['week'] = train.index.year
