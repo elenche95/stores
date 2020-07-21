@@ -18,29 +18,42 @@ df = creating_df_with_sorted_id(conversion)
 # Convert the holidays to 1 or 0, but holidays do have a slight different sales numbers
 # can One Hot encode later - or label encoding based on order. 
 print("converting the holidays")
+
+# reshuffle the data
+df.reindex(np.random.permutation(df.index))
+
 df['holiday_bool'] = df['StateHoliday_new'].replace({'a': 1, 'b': 1, 'c':1, '0':0 })
 df.drop(['StateHoliday_new'], inplace=True, axis=1)
 
 # Set Promo2 Since Week, Promo2 since year to zero since they are only na when Promo2 there is no Promo2 
-df['Promo2SinceWeek'].fillna(0, inplace=True)
-df['Promo2SinceYear'].fillna(0, inplace=True)
-
-
+#df['Promo2SinceWeek'].fillna(0, inplace=True)
+#df['Promo2SinceYear'].fillna(0, inplace=True)
 
 # Splitting train, test, X and y 
 X = df.loc[:, df.columns!= 'Sales']
 y = df.loc[:, 'Sales']
+
+print(X.columns)
+print(X.head())
+print(y.head())
 # K fold to reshuffle the data ?? 
 X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2)
 
 
+
 #fill na with average competition distance, month and year, -need to in 
 #my_imputer = SimpleImputer(strategy='mean')
-#final_X_train = pd.DataFrame(my_imputer.fit_transform(X_train))
-#final_X_valid = pd.DataFrame(my_imputer.transform(X_valid))
+#final_X_train = pd.DataFrame(my_imputer.fit_transform(X_train['']))
+#final_X_valid = pd.DataFrame(my_imputer.transform(X_valid['']))
 
 #final_X_train.columns = X_train.columns
 #final_X_valid.columns = X_valid.columns
+
+#num_X_train = X_train.drop(cat_col, axis=1)
+#num_X_valid = X_valid.drop(cat_col, axis=1) 
+
+#X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
+#X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
 
 # One Hot Encoding 'StoreType', 'Assortment','PromoInterval'
 
@@ -60,9 +73,14 @@ num_X_valid = X_valid.drop(cat_col, axis=1)
 X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
 X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
 
+print(X_train.head())
+print(y_valid.head())
+
+
 # last step save it as csv
 df.to_csv('./transformed.csv')
 X_train.to_csv('./X_train.csv')
 X_valid.to_csv('./X_valid.csv')
 y_train.to_csv('./y_train.csv')
 y_valid.to_csv('./y_valid.csv')
+#'''
