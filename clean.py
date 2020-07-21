@@ -23,7 +23,7 @@ def customers_nan(sales, customers):
 def train_clean():
     
     # Setting index and time auxiliary columns
-    
+    # path = Path()
     train = pd.read_csv('./data/train.csv', parse_dates=True, index_col='Date')
     train.index = pd.to_datetime(train.index)
     train['year'] = train.index.year
@@ -75,6 +75,7 @@ def clean():
     store = store_clean()
     
     merged = train.merge(store, on='Store', how='inner')
+    
     
     return merged 
     

@@ -18,11 +18,13 @@ df = creating_df_with_sorted_id(conversion)
 # can One Hot encode later - or label encoding based on order. 
 print("converting the holidays")
 df['holiday_bool'] = df['StateHoliday_new'].replace({'a': 1, 'b': 1, 'c':1, '0':0 })
-df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True, axis=1)
+df.drop(['StateHoliday_new'], inplace=True, axis=1)
 
+# Set Promo2 Since Week, Promo2 since year to zero since they are only na when Promo2 there is no Promo2 
+df['Promo2SinceWeek'].fillna(0, inplace=True)
+df['Promo2SinceYear'].fillna(0, inplace=True)
 
-
-
+#fill na with average competition distance, month and year, 
 
 
 # Splitting train, test, X and y 
