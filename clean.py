@@ -5,6 +5,7 @@ from pathlib import Path
 
 def store_clean():
     store = pd.read_csv("./data/store.csv")
+    return store
 
 # Lambda functions for data cleaning
 
