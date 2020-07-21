@@ -2,10 +2,16 @@ import pandas as pd
 from pathlib import Path
 
 
-
 def store_clean():
     store = pd.read_csv("./data/store.csv")
+    store['Promo2SinceWeek'] = store.Promo2SinceWeek.fillna(0)
+    store['Promo2SinceYear'] = store.Promo2SinceYear.fillna(0)
+    store['PromoInterval'] = store.PromoInterval.fillna('None')
+    store['CompetitionDistance'] = store.CompetitionDistance.fillna(round(store.CompetitionDistance.mean()))
+    store['CompetitionOpenSinceMonth'] = store.CompetitionOpenSinceMonth.fillna(round(store.CompetitionOpenSinceMonth.mean()))
+    store['CompetitionOpenSinceYear'] = store.CompetitionOpenSinceYear.fillna(round(store.CompetitionOpenSinceYear.mean()))
     return store
+
 
 # Lambda functions for data cleaning
 
@@ -17,14 +23,12 @@ def customers_nan(sales, customers):
             return customers
 
 
-
 # Cleaning training dataset
 
-def train_clean():
+def train_clean(path):
     
     # Setting index and time auxiliary columns
-    # path = Path()
-    train = pd.read_csv('./data/train.csv', parse_dates=True, index_col='Date')
+    train = pd.read_csv(path, parse_dates=True, index_col='Date')
     train.index = pd.to_datetime(train.index)
     train['year'] = train.index.year
     train['month'] = train.index.month
@@ -68,10 +72,11 @@ def train_clean():
     return train
 
 
-def clean():
+def clean(path):
+    """ Add the path to your train data or your test data in order to apply the transformations to it"""
     #This function takes the string argument for the path of the train.csv input str_path
     
-    train = train_clean()
+    train = train_clean(path)
     store = store_clean()
     
     merged = train.merge(store, on='Store', how='inner')
