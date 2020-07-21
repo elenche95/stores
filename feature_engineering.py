@@ -15,6 +15,7 @@ conversion = creating_conversion_table()
 df = creating_df_with_sorted_id(conversion)
 # 1.3
 # Convert the holidays to 1 or 0, but holidays do have a slight different sales numbers
+# can One Hot encode later - or label encoding based on order. 
 print("converting the holidays")
 df['holiday_bool'] = df['StateHoliday_new'].replace({'a': 1, 'b': 1, 'c':1, '0':0 })
 df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True, axis=1)
@@ -27,8 +28,6 @@ df.drop(['StateHoliday', 'StateHoliday_new'], inplace=True, axis=1)
 # Splitting train, test, X and y 
 X = df.loc[:, df.columns!= 'Sales']
 y = df.loc[:, 'Sales']
-
-
 # K fold to reshuffle the data ?? 
 X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2)
 
@@ -49,10 +48,15 @@ OH_X_valid_cols.index = X_valid.index
 num_X_train = X_train.drop(cat_col, axis=1)
 num_X_valid = X_valid.drop(cat_col, axis=1) 
 
-OH_X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
-OH_X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
+X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
+X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
 
 
 # last step save it as csv
 
+
 df.to_csv('./transformed.csv')
+X_train.to_csv('./X_train.csv')
+X_valid.to_csv('./X_valid.csv')
+y_train.to_csv('./y_train.csv')
+y_valid.to_csv('./y_valid.csv')
