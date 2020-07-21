@@ -48,14 +48,14 @@ OH_encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
 
 cat_col = [col for col in df.columns if df[col].dtype=='O']
 
-OH_X_train_cols = pd.DataFrame(OH_encoder.fit_transform(final_X_train[cat_col]))
-OH_X_valid_cols = pd.DataFrame(OH_encoder.transform(final_X_valid[cat_col]))
+OH_X_train_cols = pd.DataFrame(OH_encoder.fit_transform(X_train[cat_col]))
+OH_X_valid_cols = pd.DataFrame(OH_encoder.transform(X_valid[cat_col]))
 
-OH_X_train_cols.index = final_X_train.index 
-OH_X_valid_cols.index = final_X_valid.index
+OH_X_train_cols.index = X_train.index 
+OH_X_valid_cols.index = X_valid.index
 
-num_X_train = final_X_train.drop(cat_col, axis=1)
-num_X_valid = final_X_valid.drop(cat_col, axis=1) 
+num_X_train = X_train.drop(cat_col, axis=1)
+num_X_valid = X_valid.drop(cat_col, axis=1) 
 
 X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
 X_valid = pd.concat([num_X_valid, OH_X_valid_cols], axis=1)
