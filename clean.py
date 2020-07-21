@@ -1,9 +1,29 @@
 import pandas as pd
 from pathlib import Path
 
+<<<<<<< HEAD
 
 def store_clean():
     store = pd.read_csv("./data/store.csv")
+=======
+def clean(str_path):
+#This function takes the string argument for the path of the train.csv input str_path
+    path = Path(str_path)
+    train = pd.read_csv(path, parse_dates=True, index_col='Date')
+    train['year'] = train.index.year
+    train['month'] = train.index.month
+    train['week'] = train.index.week
+    train['day'] = train.index.day
+    train['day_week'] = train.index.dayofweek
+    train['month_start'] = train.index.is_month_start.astype(int)
+    train['month_end'] = train.index.is_month_end.astype(int)
+    
+    holidays = train['StateHoliday'].replace({0 : 0, None : 0}).astype(str)
+    train['StateHoliday_new'] = holidays
+    
+    
+    store = pd.read_csv('./data/store.csv')
+>>>>>>> e6414c43cf36cc441cba1474443f07220125078f
     store['Promo2SinceWeek'] = store.Promo2SinceWeek.fillna(0)
     store['Promo2SinceYear'] = store.Promo2SinceYear.fillna(0)
     store['PromoInterval'] = store.PromoInterval.fillna('None')
