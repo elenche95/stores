@@ -35,7 +35,12 @@ X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2)
 
 
 #fill na with average competition distance, month and year, -need to in 
+#my_imputer = SimpleImputer(strategy='mean')
+#final_X_train = pd.DataFrame(my_imputer.fit_transform(X_train))
+#final_X_valid = pd.DataFrame(my_imputer.transform(X_valid))
 
+#final_X_train.columns = X_train.columns
+#final_X_valid.columns = X_valid.columns
 
 # One Hot Encoding 'StoreType', 'Assortment','PromoInterval'
 
