@@ -39,8 +39,13 @@ grid = GridSearchCV(XGBRegressor(), parameters, scoring=make_scorer(metric, grea
 tmp = grid.fit(X_train.iloc[0:200_000,:], y_train.iloc[0:200_000, :])
 print(tmp.cv_results_)
 
-#my_model = XGBRegressor()
-#my_model.fit(x_training, y_training)
+model = XGBRegressor()
+model.fit(X_train, y_train)
+
+#save model to a pkl file 
+
+filename = 'model.pkl'
+pickle.dump(model, open(filename, 'wb'))
 
 
 '''
