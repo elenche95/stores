@@ -20,4 +20,8 @@ https://mega.nz/file/PSo0kSjJ#jFiRslRxwz18bcWeogufvqgr4gUcRLirD-K-yra0Hsk
 
 3. Unzip the file and store dtree_final.joblib in the main folder
 
-4. From terminal run: "python express.py", once the script gets fully executed, it will print the RMSPE in the terminal for the test set.
+4. From terminal run:  
+``
+python express.py
+``
+Once the script gets fully executed, it will print the RMSPE in the terminal for the test set.
