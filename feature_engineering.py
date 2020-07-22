@@ -21,7 +21,7 @@ def feature_engineering(df, test=False):
         conversion.to_csv('./conversion.csv')
     else:
         conversion = pd.read_csv('./conversion.csv', index_col=0)
-    
+        
     df = creating_df_with_sorted_id(conversion)
     
     # If training we reshuffle and split the data into x and y
@@ -56,15 +56,16 @@ def feature_engineering(df, test=False):
         X_feat.to_csv('./X_feat.csv')
         print(X_feat.head())
         y.to_csv('./y.csv')
-    
+        
+        return X_feat, y
+        
     else:
         X_test = one_hot_test(X)
         print(X_test.head())
         X_test.to_csv('./X_test.csv')
         y.to_csv('./y_test.csv')
-    
-
-
+        
+        return X_test, y
 
 def one_hot_test(df):    
     # define the categorical variable columns
