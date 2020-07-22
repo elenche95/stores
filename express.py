@@ -24,4 +24,4 @@ def metric(preds, actuals):
     return 100 * np.linalg.norm((actuals - preds) / actuals) / np.sqrt(preds.shape[0])
 
 
-print(metric(np.array(predictions), np.array(Y_test)))   
+print(f'RSMPE: {round(metric(np.array(predictions), np.array(Y_test)), 2)}')   
