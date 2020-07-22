@@ -23,30 +23,40 @@ def feature_engineering(df, test=False):
     
     df = creating_df_with_sorted_id(conversion)
     
-    # reshuffle the data
-    df.reindex(np.random.permutation(df.index))    
-    
-    # Splitting X and y  
+    # If training we reshuffle and split the data into x and y
+    if test==False:
+        print('reshuffle the data')
+        df.reindex(np.random.permutation(df.index))    
+        df.to_csv('./transformed.csv')
+        
+    print('Splitting X and y')
     X = df.loc[:, df.columns!= 'Sales']
     y = df.loc[:, 'Sales']
-
-    # One Hot Encoding 'StateHoliday_new' 'StoreType', 'Assortment','PromoInterval'
-    cat_col = [col for col in df.columns if df[col].dtype=='O']
-    OH_encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
-    OH_X_cols = pd.DataFrame(OH_encoder.fit_transform(X[cat_col]))
     
-    # saving the encoder
-    with open("OH_encoder", "wb") as f: 
-        pickle.dump(OH_encoder, f)
+    if test==False:
+        # One Hot Encoding 'StateHoliday_new' 'StoreType', 'Assortment','PromoInterval'
+        cat_col = [col for col in df.columns if df[col].dtype=='O']
+        OH_encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
+        OH_X_cols = pd.DataFrame(OH_encoder.fit_transform(X[cat_col]))
+        
     
-    OH_X_cols.index = X.index 
-    num_X_train = X_train.drop(cat_col, axis=1)
-    X_train = pd.concat([num_X_train, OH_X_train_cols], axis=1)
+        OH_X_cols.index = X.index 
+        num_X_train = X.drop(cat_col, axis=1)
+        X_feat = pd.concat([num_X_train, OH_X_cols], axis=1)
+        
+        # saving the encoder
+        with open("OH_encoder", "wb") as f: 
+            pickle.dump(OH_encoder, f)
+    
+        #Save it as csv
+        X_feat.to_csv('./X_feat.csv')
+        y.to_csv('./y.csv')
+    
+    else:
+        X_test = one_hot_test(X)
+        X_test.to_csv('./X_test.csv')
+        y.to_csv('./y.csv')
 
-    # last step save it as csv
-    df.to_csv('./transformed.csv')
-    X.to_csv('./X.csv')
-    y.to_csv('./y.csv')
 
 def one_hot_test(df):    
     # define the categorical variable columns
