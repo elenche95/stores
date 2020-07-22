@@ -4,7 +4,6 @@ Mini Competition - Rossman Challenge
 
 This is a repo to predict Sales data from the Rossman Challenge
 
-To run:
 
 [Optional: install a new environment, activate it and install the requirements.txt]
 
@@ -13,6 +12,8 @@ conda create --name rossmann  python=3.7
 conda activate rossmann
 pip install -r requirements.txt
 ```
+
+To run:
 
 0. Clone the repo https://github.com/elenche95/stores and check the requirements.txt
 
