@@ -8,7 +8,11 @@ To run:
 
 0. Clone the repo https://github.com/elenche95/stores and check the requirements.txt
 
-1. Execute from the main folder in the terminal "python data.py --test 1" (make sure that "./data/test.csv" exists)
+1. Execute from the main folder in the terminal  (make sure that "./data/test.csv" exists)
+
+``
+python data.py --test 1
+``
 
 2. Download from the following link the Random Forest regressor model that was trained with the train.csv data
 
