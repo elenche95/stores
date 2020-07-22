@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import make_scorer
 from xgboost import XGBRegressor
+import pickle
 
 X_train = pd.read_csv('./X_train.csv', index_col=0)
 X_valid = pd.read_csv('./X_valid.csv', index_col=0)
