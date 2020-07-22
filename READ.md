@@ -4,6 +4,15 @@ This is a repo to predict Sales data from the Rossman Challenge
 
 To run:
 
+1. Download from the following link the Random Forest regressor model that was trained with the train.csv data
+
+2. Unzip the file and store dtree_final.joblib in the main folder of the repo
+
+3. From terminal run: "python express.py", once the script gets fully executed, it will print the RMSPE in the terminal for the test set.
+
+
+// [Old instructions]
+
 1. Import the necessary modules and requirements:
 
 
