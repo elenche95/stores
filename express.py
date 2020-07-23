@@ -1,4 +1,4 @@
-from clean2 import clean
+from clean import clean
 import pandas as pd
 import numpy as np
 df = clean('./data/test.csv')
@@ -23,5 +23,5 @@ def metric(preds, actuals):
     assert preds.shape == actuals.shape
     return 100 * np.linalg.norm((actuals - preds) / actuals) / np.sqrt(preds.shape[0])
 
-
+print("rsmpe")
 print(metric(np.array(predictions), np.array(Y_test)))   

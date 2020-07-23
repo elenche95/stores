@@ -19,7 +19,7 @@ def feature_engineering(df, test=False):
     #else:
     #   conversion = pd.read_csv('./conversion.csv', index_col=0)
         
-    #df = creating_df_with_sorted_id(conversion)
+    #df = creating_df_with_sorted_id(trans, conversion)
     
     # If training we reshuffle and split the data into x and y
     if test==False:
@@ -56,6 +56,7 @@ def feature_engineering(df, test=False):
         return X_feat, y
         
     else:
+       # X['sorted id'] = X['sorted id'].astype(int)
         X_test = one_hot_test(X)
         X_test.to_csv('./X_test.csv')
         y.to_csv('./y_test.csv')
